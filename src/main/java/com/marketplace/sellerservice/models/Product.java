@@ -10,8 +10,8 @@ import javax.persistence.EntityListeners;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -26,13 +26,16 @@ public class Product {
     BigDecimal price;
     String sellerId;
     String shopName;
+    String category;
+    int reviewCount=0;
+    Double rating=0.0;
 
     @OneToMany
     List<Media> mediaList = new ArrayList<>();
 
     @CreatedDate
-    LocalDateTime createdAt;
+    Date createdAt;
 
     @LastModifiedDate
-    LocalDateTime updatedAt;
+    Date updatedAt;
 }

@@ -1,5 +1,6 @@
 package com.marketplace.sellerservice.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.marketplace.sellerservice.models.Product;
 import com.marketplace.sellerservice.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,12 +13,17 @@ public class ProductController {
     ProductService productService;
 
     @PostMapping
-    public Product save(@PathVariable String sellerId, @RequestBody Product product){
+    public Product save(@PathVariable String sellerId, @RequestBody Product product) throws JsonProcessingException {
         return productService.save(product,sellerId);
     }
 
     @GetMapping("/{productId}")
     public Product get(@PathVariable String sellerId, @PathVariable String productId){
         return productService.getProductById(productId);
+    }
+
+    @DeleteMapping("/{productId}")
+    public void deleteProduct(@PathVariable String sellerId, @PathVariable String productId) throws JsonProcessingException {
+        productService.delete(productId,sellerId);
     }
 }

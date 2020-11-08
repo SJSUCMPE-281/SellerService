@@ -5,8 +5,10 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.*;
-import java.time.LocalDateTime;
+import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -26,8 +28,8 @@ public class Seller {
     List<Media> mediaList = new ArrayList<>();
 
     @CreatedDate
-    LocalDateTime createdAt;
+    Date createdAt;
 
     @LastModifiedDate
-    LocalDateTime updatedAt;
+    Date updatedAt;
 }

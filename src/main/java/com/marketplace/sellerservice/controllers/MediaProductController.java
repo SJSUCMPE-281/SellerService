@@ -1,5 +1,6 @@
 package com.marketplace.sellerservice.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.marketplace.sellerservice.models.Media;
 import com.marketplace.sellerservice.services.MediaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ public class MediaProductController {
     MediaService mediaService;
 
     @PostMapping
-    public Media save(@PathVariable String sellerId, @PathVariable String productId, @RequestPart(value = "image") MultipartFile image){
+    public Media save(@PathVariable String sellerId, @PathVariable String productId, @RequestPart(value = "image") MultipartFile image) throws JsonProcessingException {
         return mediaService.saveProduct(image,productId);
     }
 }

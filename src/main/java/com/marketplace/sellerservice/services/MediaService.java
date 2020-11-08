@@ -1,5 +1,7 @@
 package com.marketplace.sellerservice.services;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.marketplace.sellerservice.models.EventType;
 import com.marketplace.sellerservice.models.Media;
 import com.marketplace.sellerservice.models.Product;
 import com.marketplace.sellerservice.models.Seller;
@@ -28,6 +30,9 @@ public class MediaService {
     @Autowired
     AmazonClient amazonClient;
 
+    @Autowired
+    PublisherClient publisherClient;
+
     @Transactional
     public Media saveSeller(MultipartFile image, String id){
         String url = amazonClient.uploadImage(image);
@@ -42,7 +47,7 @@ public class MediaService {
     }
 
     @Transactional
-    public Media saveProduct(MultipartFile image, String id){
+    public Media saveProduct(MultipartFile image, String id) throws JsonProcessingException {
         String url = amazonClient.uploadImage(image);
         Media media = new Media();
         Product product = productRepository.findById(id).get();
@@ -50,7 +55,7 @@ public class MediaService {
         media.setMediaId(UUID.randomUUID().toString());
         product.getMediaList().add(media);
         Media newMedia = mediaRepository.save(media);
-        productRepository.save(product);
+        publisherClient.publishSNSMessage(productRepository.save(product), EventType.ENTITY_UPDATE);
         return newMedia;
     }
 }
