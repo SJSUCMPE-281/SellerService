@@ -22,6 +22,8 @@ public class Seller {
     String firstName;
     String lastName;
     String shopName;
+    String email;
+    String phoneNumber;
     String shopDescription;
 
     @OneToMany
