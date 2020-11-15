@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -57,5 +59,17 @@ public class MediaService {
         Media newMedia = mediaRepository.save(media);
         publisherClient.publishSNSMessage(productRepository.save(product), EventType.ENTITY_UPDATE);
         return newMedia;
+    }
+
+    public List<Media> save(MultipartFile[] images) {
+        List<Media> mediaList = new ArrayList<>();
+        for(MultipartFile image: images) {
+            Media media = new Media();
+            String url = amazonClient.uploadImage(image);
+            media.setUrl(url);
+            media.setMediaId(UUID.randomUUID().toString());
+            mediaList.add(mediaRepository.save(media));
+        }
+        return mediaList;
     }
 }
