@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/api/seller/{sellerId}/product")
 public class ProductController {
     @Autowired
@@ -25,5 +26,10 @@ public class ProductController {
     @DeleteMapping("/{productId}")
     public void deleteProduct(@PathVariable String sellerId, @PathVariable String productId) throws JsonProcessingException {
         productService.delete(productId,sellerId);
+    }
+
+    @GetMapping
+    public Iterable<Product> getAll(@PathVariable String sellerId){
+        return productService.getProducts(sellerId);
     }
 }

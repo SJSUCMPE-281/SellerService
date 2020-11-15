@@ -29,6 +29,7 @@ public class ProductService {
         product.setSellerId(sellerId);
         product.setProductId(UUID.randomUUID().toString());
         product.setShopName(getSeller(sellerId).getShopName());
+
         Product newProduct = productRepository.save(product);
         publisherClient.publishSNSMessage(newProduct, EventType.ENTITY_CREATE);
         return newProduct;
@@ -42,5 +43,9 @@ public class ProductService {
         publisherClient.publishSNSMessage(product, EventType.ENTITY_DELETE);
         productRepository.deleteById(productId);
 
+    }
+
+    public Iterable<Product> getProducts(String id){
+        return productRepository.findAllBySellerId(id);
     }
 }

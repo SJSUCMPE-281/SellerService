@@ -5,8 +5,6 @@ import com.marketplace.sellerservice.repositories.SellerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
-
 @Service
 public class SellerService {
 
@@ -14,7 +12,6 @@ public class SellerService {
     SellerRepository sellerRepository;
 
     public Seller save(Seller seller){
-        seller.setSellerId(UUID.randomUUID().toString());
         return sellerRepository.save(seller);
     }
 
