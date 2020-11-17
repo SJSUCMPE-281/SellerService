@@ -5,10 +5,8 @@ import com.amazonaws.services.sns.AmazonSNSClientBuilder;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.marketplace.sellerservice.mappers.ProductMapper;
-import com.marketplace.sellerservice.models.EventType;
-import com.marketplace.sellerservice.models.Product;
-import com.marketplace.sellerservice.models.ProductDTO;
-import com.marketplace.sellerservice.models.SNSEvent;
+import com.marketplace.sellerservice.mappers.UserMapper;
+import com.marketplace.sellerservice.models.*;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,25 +20,38 @@ public class PublisherClient {
     @Value("${cloud.aws.region.static}")
     private String awsRegion;
 
-    @Value("${amazon.sns.topic}")
-    private String snsTopicARN;
+    @Value("${amazon.product.sns.topic}")
+    private String productSnsTopicARN;
+
+    @Value("${amazon.user.sns.topic}")
+    private String userSnsTopicARN;
 
     private AmazonSNS amazonSNS;
 
     @Autowired
     ProductMapper productMapper;
 
+    @Autowired
+    UserMapper userMapper;
+
     @PostConstruct
     private void init(){
         amazonSNS = AmazonSNSClientBuilder.standard().withRegion(awsRegion).build();
     }
-    public void publishSNSMessage(Product product, EventType eventType) throws JsonProcessingException {
+    public void publishProductCreationEvent(Product product, EventType eventType) throws JsonProcessingException {
         ProductDTO productDTO = productMapper.toDTO(product);
         SNSEvent snsEvent = new SNSEvent();
         snsEvent.setEventType(eventType);
         snsEvent.setProductDTO(productDTO);
         ObjectMapper objectMapper = new ObjectMapper();
         String jsonPayload = objectMapper.writeValueAsString(snsEvent);
-        amazonSNS.publish(snsTopicARN,jsonPayload);
+        amazonSNS.publish(productSnsTopicARN,jsonPayload);
+    }
+
+    public void publishUserRegistrationEvent(Seller seller) throws JsonProcessingException {
+        UserDTO userDTO = userMapper.toDTO(seller);
+        ObjectMapper objectMapper = new ObjectMapper();
+        String jsonPayload = objectMapper.writeValueAsString(userDTO);
+        amazonSNS.publish(userSnsTopicARN,jsonPayload);
     }
 }

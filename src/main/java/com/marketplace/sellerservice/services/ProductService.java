@@ -31,7 +31,7 @@ public class ProductService {
         product.setShopName(getSeller(sellerId).getShopName());
 
         Product newProduct = productRepository.save(product);
-        publisherClient.publishSNSMessage(newProduct, EventType.ENTITY_CREATE);
+        publisherClient.publishProductCreationEvent(newProduct, EventType.ENTITY_CREATE);
         return newProduct;
     }
     public Product getProductById(String id){
@@ -40,7 +40,7 @@ public class ProductService {
 
     public void delete(String productId, String sellerId) throws JsonProcessingException {
         Product product = getProductById(productId);
-        publisherClient.publishSNSMessage(product, EventType.ENTITY_DELETE);
+        publisherClient.publishProductCreationEvent(product, EventType.ENTITY_DELETE);
         productRepository.deleteById(productId);
 
     }

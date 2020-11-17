@@ -57,7 +57,7 @@ public class MediaService {
         media.setMediaId(UUID.randomUUID().toString());
         product.getMediaList().add(media);
         Media newMedia = mediaRepository.save(media);
-        publisherClient.publishSNSMessage(productRepository.save(product), EventType.ENTITY_UPDATE);
+        publisherClient.publishProductCreationEvent(productRepository.save(product), EventType.ENTITY_UPDATE);
         return newMedia;
     }
 

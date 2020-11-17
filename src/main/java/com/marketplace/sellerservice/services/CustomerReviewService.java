@@ -31,7 +31,7 @@ public class CustomerReviewService {
         product.setReviewCount(product.getReviewCount()+1);
         product.setRating(total/product.getReviewCount());
         review.setProduct(productRepository.save(product));
-        publisherClient.publishSNSMessage(product, EventType.ENTITY_UPDATE);
+        publisherClient.publishProductCreationEvent(product, EventType.ENTITY_UPDATE);
         return customerReviewRepository.save(review);
     }
 }
