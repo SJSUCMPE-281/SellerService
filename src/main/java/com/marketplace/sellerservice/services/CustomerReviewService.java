@@ -34,4 +34,8 @@ public class CustomerReviewService {
         publisherClient.publishProductCreationEvent(product, EventType.ENTITY_UPDATE);
         return customerReviewRepository.save(review);
     }
+
+    public Iterable<CustomerReview> get(String productId){
+        return customerReviewRepository.findAllByProduct_ProductId(productId);
+    }
 }

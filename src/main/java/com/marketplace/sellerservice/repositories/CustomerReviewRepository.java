@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CustomerReviewRepository extends CrudRepository<CustomerReview, String> {
+    Iterable<CustomerReview> findAllByProduct_ProductId(String productId);
 }
