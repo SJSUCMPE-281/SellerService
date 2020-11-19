@@ -17,4 +17,9 @@ public class CustomerReviewController {
     public CustomerReview saveReview(@PathVariable String productId, @RequestBody CustomerReview review) throws JsonProcessingException {
         return customerReviewService.save(productId,review);
     }
+
+    @GetMapping
+    public Iterable<CustomerReview> get(@PathVariable String productId){
+        return customerReviewService.get(productId);
+    }
 }
