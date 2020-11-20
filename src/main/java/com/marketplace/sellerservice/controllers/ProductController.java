@@ -32,4 +32,9 @@ public class ProductController {
     public Iterable<Product> getAll(@PathVariable String sellerId){
         return productService.getProducts(sellerId);
     }
+
+    @PutMapping
+    public Product update(@PathVariable String sellerId, @RequestBody Product product) throws JsonProcessingException {
+        return productService.update(sellerId,product);
+    }
 }

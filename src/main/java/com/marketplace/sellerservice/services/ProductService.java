@@ -48,4 +48,26 @@ public class ProductService {
     public Iterable<Product> getProducts(String id){
         return productRepository.findAllBySellerId(id);
     }
+
+    public Product update(String sellerId, Product product) throws JsonProcessingException {
+        Product oldProduct = getProductById(product.getProductId());
+        if(product.getProductName()!= null){
+            oldProduct.setProductName(product.getProductName());
+        }
+        if(product.getProductDescription() != null){
+            oldProduct.setProductDescription(product.getProductDescription());
+        }
+        if(product.getPrice() != null){
+            oldProduct.setPrice(product.getPrice());
+        }
+        if(product.getCategory() != null){
+            oldProduct.setCategory(product.getCategory());
+        }
+        if(product.getMediaList() != null && product.getMediaList().size() != 0){
+            oldProduct.setMediaList(product.getMediaList());
+        }
+        Product newProduct = productRepository.save(oldProduct);
+        publisherClient.publishProductCreationEvent(newProduct, EventType.ENTITY_UPDATE);
+        return newProduct;
+    }
 }
