@@ -40,13 +40,14 @@ public class ProductService {
 
     public void delete(String productId, String sellerId) throws JsonProcessingException {
         Product product = getProductById(productId);
+        product.setActiveFlag(false);
+        productRepository.save(product);
         publisherClient.publishProductCreationEvent(product, EventType.ENTITY_DELETE);
-        productRepository.deleteById(productId);
 
     }
 
     public Iterable<Product> getProducts(String id){
-        return productRepository.findAllBySellerId(id);
+        return productRepository.findAllBySellerIdAndActiveFlagEquals(id,true);
     }
 
     public Product update(String sellerId, Product product) throws JsonProcessingException {

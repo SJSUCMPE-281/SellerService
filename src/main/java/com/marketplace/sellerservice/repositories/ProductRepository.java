@@ -5,5 +5,5 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface ProductRepository extends CrudRepository<Product,String> {
 
-    Iterable<Product> findAllBySellerId(String id);
+    Iterable<Product> findAllBySellerIdAndActiveFlagEquals(String id,boolean isActive);
 }
