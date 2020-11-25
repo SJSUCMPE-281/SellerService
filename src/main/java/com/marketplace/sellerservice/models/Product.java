@@ -29,6 +29,7 @@ public class Product {
     String category;
     int reviewCount=0;
     Double rating=0.0;
+    boolean activeFlag=true;
 
     @OneToMany
     List<Media> mediaList = new ArrayList<>();
