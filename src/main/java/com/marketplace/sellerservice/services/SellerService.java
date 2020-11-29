@@ -17,7 +17,25 @@ public class SellerService {
 
     public Seller save(Seller seller) throws JsonProcessingException {
         try {
-            return sellerRepository.findById(seller.getSellerId()).get();
+            Seller existingSeller = sellerRepository.findById(seller.getSellerId()).get();
+            boolean isSaveNeeded = false;
+            if((existingSeller.getMediaList() == null || existingSeller.getMediaList().size() == 0) && seller.getMediaList() != null) {
+                existingSeller.setMediaList(seller.getMediaList());
+                isSaveNeeded = true;
+            }
+            if(existingSeller.getShopDescription() == null && seller.getShopDescription() != null) {
+                existingSeller.setShopDescription(seller.getShopDescription());
+                isSaveNeeded = true;
+            }
+            if(existingSeller.getShopName() == null && seller.getShopName() != null) {
+                existingSeller.setShopName(seller.getShopName());
+                isSaveNeeded = true;
+            }
+            if(isSaveNeeded) {
+                existingSeller = sellerRepository.save(existingSeller);
+                publisherClient.publishUserRegistrationEvent(existingSeller);
+            }
+            return existingSeller;
         } catch(Exception e) {
             Seller newSeller = sellerRepository.save(seller);
             publisherClient.publishUserRegistrationEvent(newSeller);
