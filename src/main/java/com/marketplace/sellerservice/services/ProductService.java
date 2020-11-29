@@ -2,13 +2,16 @@ package com.marketplace.sellerservice.services;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.marketplace.sellerservice.models.EventType;
+import com.marketplace.sellerservice.models.Media;
 import com.marketplace.sellerservice.models.Product;
 import com.marketplace.sellerservice.models.Seller;
+import com.marketplace.sellerservice.repositories.MediaRepository;
 import com.marketplace.sellerservice.repositories.ProductRepository;
 import com.marketplace.sellerservice.repositories.SellerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -21,6 +24,9 @@ public class ProductService {
 
     @Autowired
     PublisherClient publisherClient;
+
+    @Autowired
+    MediaRepository mediaRepository;
 
     public Seller getSeller(String sellerId){
        return sellerRepository.findById(sellerId).get();
@@ -65,7 +71,11 @@ public class ProductService {
             oldProduct.setCategory(product.getCategory());
         }
         if(product.getMediaList() != null && product.getMediaList().size() != 0){
-            oldProduct.setMediaList(product.getMediaList());
+            List<Media> mediaList = oldProduct.getMediaList();
+            for(Media media:product.getMediaList()){
+                mediaList.add(mediaRepository.save(media));
+            }
+            oldProduct.setMediaList(mediaList);
         }
         Product newProduct = productRepository.save(oldProduct);
         publisherClient.publishProductCreationEvent(newProduct, EventType.ENTITY_UPDATE);
