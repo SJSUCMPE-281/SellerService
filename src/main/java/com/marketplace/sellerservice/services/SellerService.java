@@ -16,9 +16,13 @@ public class SellerService {
     PublisherClient publisherClient;
 
     public Seller save(Seller seller) throws JsonProcessingException {
-        Seller newSeller = sellerRepository.save(seller);
-        publisherClient.publishUserRegistrationEvent(newSeller);
-        return newSeller;
+        try {
+            return sellerRepository.findById(seller.getSellerId()).get();
+        } catch(Exception e) {
+            Seller newSeller = sellerRepository.save(seller);
+            publisherClient.publishUserRegistrationEvent(newSeller);
+            return newSeller;
+        }
     }
 
     public Seller getShopById(String id){
