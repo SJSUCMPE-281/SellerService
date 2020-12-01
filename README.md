@@ -5,7 +5,7 @@
 * Professor [Sanjay Garje](https://www.linkedin.com/in/sanjaygarje/)
 * Student: [Anisha Agarwal](www.linkedin.com/in/anisha25)
 * Student: [Arshia Sali](https://www.linkedin.com/in/arshia-sali-842417101/)
-* Student: [Jeena Thampi]()
+* Student: [Jeena Thampi](http://linkedin.com/in/jeena-thampi-61a350b3)
 * Student: [Priti Sharma]()
 
 ## Project Introduction
