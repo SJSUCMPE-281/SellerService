@@ -6,7 +6,7 @@
 * Student: [Anisha Agarwal](www.linkedin.com/in/anisha25)
 * Student: [Arshia Sali](https://www.linkedin.com/in/arshia-sali-842417101/)
 * Student: [Jeena Thampi](http://linkedin.com/in/jeena-thampi-61a350b3)
-* Student: [Priti Sharma]()
+* Student: [Priti Sharma](https://www.linkedin.com/in/priti-sharma-68b60b64)
 
 ## Project Introduction
 The application provides a platform where it simplifies the process of running an online store for small/medium merchants in the “New Normal”.
